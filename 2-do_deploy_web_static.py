@@ -4,6 +4,7 @@ Fabric script (1-pack_web_static.py) that distributes an archive
 To your web servers, using the function do_deploy
 """
 from fabric.api import env, put, sudo, run
+import os.path
 
 env.hosts = ["3.86.7.100", "100.26.212.112"]
 
