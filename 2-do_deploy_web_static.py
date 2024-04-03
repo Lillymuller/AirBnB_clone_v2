@@ -12,7 +12,6 @@ def do_deploy(archive_path):
         print("Archive not found: {}".format(archive_path))
         return False
     archive_name = os.path.basename(archive_path)
-
     for server in env.hosts:
         put(archive_path, f"/tmp/{archive_name}")
     for server in env.hosts:
