@@ -5,7 +5,7 @@ import time
 
 
 def do_pack():
-    """Generates a .tgz archive of the web_static folder and returns its path."""
+    """Generates a .tgz archive of the web_static folder and returns path"""
     timestamp = time.strftime("%Y%m%d%H%M%S")
     archive_path = f"versions/web_static_{timestamp}.tgz"
     try:
