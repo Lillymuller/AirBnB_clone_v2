@@ -30,10 +30,12 @@ def do_deploy(archive_path):
             put(archive_path, f"/tmp/{archive_name}")
             with sudo(server):
                 run(f"tar -xzf /tmp/{archive_name} -C /data/web_static/releases")
-                run(f"mv /data/web_static/releases/{archive_name[:-4]} /data/web_static/releases/{archive_name}")
+                run(f"mv /data/web_static/releases/{archive_name[:-4]}
+                        /data/web_static/releases/{archive_name}")
                 run(f"rm /tmp/{archive_name}")
                 run("rm -rf /data/web_static/current")
-                run(f"ln -s /data/web_static/releases/{archive_name} /data/web_static/current")
+                run(f"ln -s /data/web_static/releases/{archive_name}
+                        /data/web_static/current")
                 run("/path/to/restart_nginx.sh")
         except:
             return False
@@ -42,7 +44,6 @@ def do_deploy(archive_path):
 def deploy():
     """Creates and deploys an archive to web servers."""
     archive_path = do_pack()
-
     if archive_path:
         return do_deploy(archive_path)
     else:
