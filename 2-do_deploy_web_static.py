@@ -1,40 +1,11 @@
 #!/usr/bin/python3
-# Fabfile to distribute an archive to a web server.
+"""Fabric to distribute an archive to a web server"""
 import os.path
 from fabric.api import env
 from fabric.api import put
 from fabric.api import run
 
-env.hosts = ["3.86.7.100", "100.26.212.112"]
-
-
-def do_deploy(archive_path):
-    """Distributes an archive to a web server.
-    Args:
-        archive_path (str): The path of the archive to distribute.
-    Returns:
-        If the file doesn't exist at archive_path or an error occurs - False.
-        Otherwise - True.
-    """
-    if not os.path.isdir("versions"):
-        os.mkdir("versions")
-    times = datetime.now()
-    output = "versions/web_static_{}{}{}{}{}{}.tgz".format(
-        times.year,
-        times.month,
-        times.day,
-        times.hour,
-        times.minute,
-        times.second
-    )
-    try:
-        print("Packing web_static to {}".format(output))
-        local("tar -cvzf {} web_static".format(output))
-        archize_size = os.stat(output).st_size
-        print("web_static packed: {} -> {} Bytes".format(output, archize_size))
-    except Exception:
-        output = None
-    return output
+env.hosts = ["104.196.168.90", "35.196.46.172"]
 
 
 def do_deploy(archive_path):
