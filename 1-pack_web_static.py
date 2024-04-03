@@ -7,10 +7,16 @@ from fabric.api import local
 
 def create_archive():
     """Creates a tar gzipped archive of the directory web_static."""
-    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-    archive_path = f"versions/web_static_{timestamp}.tgz"
-
-    os.makedirs("versions", exist_ok=True)
-    if local(f"tar -cvzf {archive_path} web_static").failed:
-        return None 
-    return archive_path
+    times = datetime.utcnow()
+    file = "versions/web_static_{}{}{}{}{}{}.tgz".format(times.year,
+                                                         times.month,
+                                                         times.day,
+                                                         times.hour,
+                                                         times.minute,
+                                                         times.second)
+    if os.path.isdir("versions") is False:
+        if local("mkdir -p versions").failed is True:
+            return None
+    if local("tar -cvzf {} web_static".format(file)).failed is True:
+        return None
+    return file
