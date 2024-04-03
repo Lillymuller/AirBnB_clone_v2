@@ -1,16 +1,17 @@
+#!/usr/bin/python3
 import os
 from datetime import datetime
 from fabric.api import env, local, put, run, runs_once
 
 
 class Deployer:
+    """Distributes an archive to a web server"""
     def __init__(self, hosts):
         self.hosts = hosts
 
     def create_archive(self):
         timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
         archive_path = f"versions/web_static_{timestamp}.tgz"
-
         try:
             print("Packing web_static to {}".format(archive_path))
             local(f"tar -cvzf {archive_path} web_static")
@@ -26,7 +27,6 @@ class Deployer:
     def deploy_archive(self, archive_path):
         if not os.path.exists(archive_path):
             return False
-
         file_name = os.path.basename(archive_path)
         folder_name = file_name.replace(".tgz", "")
         folder_path = f"/data/web_static/releases/{folder_name}/"
@@ -45,7 +45,6 @@ class Deployer:
         except Exception as e:
             print(f"Error during deployment: {e}")
             return False
-
 
 if __name__ == "__main__":
     deployer = Deployer(hosts=['3.86.7.100', '100.26.212.112'])
