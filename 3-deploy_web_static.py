@@ -3,7 +3,7 @@
 import os
 from fabric.api import env, local, put, run, sudo
 
-env.hosts = ["104.196.168.90", "35.196.46.172"]
+env.hosts = ["3.86.7.100", "100.26.212.112"]
 
 
 def do_pack():
