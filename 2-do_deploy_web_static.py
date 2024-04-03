@@ -18,7 +18,8 @@ def do_deploy(archive_path):
     for server in env.hosts:
         with sudo(server):
             run(f"tar -xvf /tmp/{archive_name} -C /data/web_static/releases")
-            run(f"mv /data/web_static/releases/{archive_name[:-4]} /data/web_static/releases/{archive_name}")
+            run(f"mv /data/web_static/releases/{archive_name[:-4]}
+                    /data/web_static/releases/{archive_name}")
             run(f"rm /tmp/{archive_name}")
             run("rm -rf /data/web_static/current")
             run(f"ln -s /data/web_static/releases/{archive_name} /data/web_static/current")
