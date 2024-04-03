@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Fabric to distribute an archive to a web server"""
+"""Distribute an archive to a web server"""
 import os.path
 from fabric.api import env
 from fabric.api import put
@@ -9,7 +9,7 @@ env.hosts = ["3.86.7.100", "100.26.212.112"]
 
 
 def do_deploy(archive_path):
-    """Distributes an archive to a web server.
+    """Distributes an archive to a web server using the function do_deploy
 
     Args:
         archive_path (str): The path of the archive to distribute.
