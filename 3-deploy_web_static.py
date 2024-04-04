@@ -11,20 +11,17 @@ env.hosts = ["3.86.7.100", "100.26.212.112"]
 
 
 def do_pack():
-    """Create a tar gzipped archive of the directory web_static."""
-    t = datetime.utcnow()
-    file = "versions/web_static_{}{}{}{}{}{}.tgz".format(t.year,
-                                                         t.month,
-                                                         t.day,
-                                                         t.hour,
-                                                         t.minute,
-                                                         t.second)
-    if os.path.isdir("versions") is False:
-        if local("mkdir -p versions").failed is True:
-            return None
-    if local("tar -cvzf {} web_static".format(file)).failed is True:
+    """Generates a .tgz archive of the web_static folder returns its path."""
+    timestamp = time.strftime("%Y%m%d%H%M%S")
+    archive_path = f"versions/web_static_{timestamp}.tgz"
+
+    try:
+        with lcd("web_static"):
+            local("mkdir -p ../versions")
+            local(f"tar -cvzf ../{archive_path} .")
+            return archive_path
+    except:
         return None
-    return file
 
 
 def do_deploy(archive_path):
