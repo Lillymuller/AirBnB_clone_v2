@@ -3,36 +3,31 @@
 Fabric script (based on the file 3-deploy_web_static.py)
 that deletes out-of-date archives, using the function do_clean
 """
-from fabric.api import env, local, run, sudo
+from fabric.api import *
 import os
 
-env.hosts = ["3.86.7.100", "100.26.212.112"]
+env.hosts = ["104.196.168.90", "35.196.46.172"]
 
 
 def do_clean(number=0):
-    """Deletes out-of-date archives on local and remote servers
+    """Delete out-of-date archives.
+
     Args:
-    number (int): The number of archives to keep
-    (default: 0, keeps only the most recent)
+        number (int): The number of archives to keep.
 
-    Raises:
-    ValueError: If the provided number is negative
+    If number is 0 or 1, keeps only the most recent archive. If
+    number is 2, keeps the most and second-most recent archives,
+    etc.
     """
+    number = 1 if int(number) == 0 else int(number)
 
-    if number < 0:
-        raise ValueError("Number of archives to keep cannot be negative")
+    archives = sorted(os.listdir("versions"))
+    [archives.pop() for i in range(number)]
+    with lcd("versions"):
+        [local("rm ./{}".format(a)) for a in archives]
 
-    """Delete local archives"""
-    local_archives = sorted(local("ls versions/").split())[::-1]
-    for archive in local_archives[number:]:
-        local("rm versions/{}".format(archive))
-
-"""Delete remote archives (assuming sudo access)"""
-for server in env.hosts:
-    with sudo(server):
-    remote_archives = run("ls -tr /data/web_static/releases/ | grep
-            'web_static_'").split()
-    remote_archives = remote_archives[::-1][:number]
-
-    for archive in set(remote_archives):
-        run("rm -rf /data/web_static/releases/{}".format(archive))
+    with cd("/data/web_static/releases"):
+        archives = run("ls -tr").split()
+        archives = [a for a in archives if "web_static_" in a]
+        [archives.pop() for i in range(number)]
+        [run("rm -rf ./{}".format(a)) for a in archives]
