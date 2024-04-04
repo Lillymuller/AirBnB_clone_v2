@@ -1,22 +1,15 @@
 #!/usr/bin/python3
-"""fabfile tar packaging"""
-from fabric.api import local, run, env, put
-from datetime import datetime
-import os
+""" Fabfile to distribute an archive"""
+import os.path
+from fabric.api import env
+from fabric.api import put
+from fabric.api import run
 
-env.user = 'ubuntu'
-env.hosts = ['3.86.7.100', '100.26.212.112']
+env.hosts = ["3.86.7.100", "100.26.212.112"]
 
 
 def do_deploy(archive_path):
-    """
-
-    Args:
-        archive_path (str): The path of the archive to distribute.
-    Returns:
-        If the file doesn't exist at archive_path or an error occurs - False.
-        Otherwise - True.
-    """
+    """Distributes an archive to a web static"""
     if os.path.isfile(archive_path) is False:
         return False
     file = archive_path.split("/")[-1]
