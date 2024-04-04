@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# Fabfile to create and distribute an archive to a web server.
+"""Fabfile to create and distribute an archive to a web server"""
 import os.path
 from datetime import datetime
 from fabric.api import env
@@ -12,16 +12,19 @@ env.hosts = ["3.86.7.100", "100.26.212.112"]
 
 def do_pack():
     """Generates a .tgz archive of the web_static folder returns its path."""
-    timestamp = time.strftime("%Y%m%d%H%M%S")
-    archive_path = f"versions/web_static_{timestamp}.tgz"
-
-    try:
-        with lcd("web_static"):
-            local("mkdir -p ../versions")
-            local(f"tar -cvzf ../{archive_path} .")
-            return archive_path
-    except:
+    d = datetime.utcnow()
+    file = "versions/web_static_{}{}{}{}{}{}.tgz".format(d.year,
+                                                         d.month,
+                                                         d.day,
+                                                         d.hour,
+                                                         d.minute,
+                                                         d.second)
+    if os.path.isdir("versions") is False:
+        if local("mkdir -p versions").failed is True:
+            return None
+    if local("tar -cvzf {} web_static".format(file)).failed is True:
         return None
+    return file
 
 
 def do_deploy(archive_path):
