@@ -26,7 +26,6 @@ def teardown(exception):
 def states_cities():
     """Displays an HTML page with list of all State in DBStorage"""
     state_list = storage.all("State").values()
-    state_list.sort(key=lambda state: state.name)
     return render_template("7-states_list.html", state_list=state_list)
 
 
