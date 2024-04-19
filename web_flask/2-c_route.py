@@ -2,10 +2,10 @@
 """
 script that starts a Flask web application
 Your web application must be listening on 0.0.0.0, port 5000
-Routes /Hello HBNB and /HBNB
+Routes /Hello HBNB, /hbnb and /c/<text>
 """
 
-from flask import Flask
+form flask import Flask
 
 app = Flask(__name__)
 
@@ -20,6 +20,13 @@ def hello_hbnb():
 def hbnb():
     """Display hbnb"""
     return "HBNB"
+
+
+@app.route("/c/<text>", strict_slashes=False)
+def c(text):
+    """Display “C ” followed by the value of the text variable"""
+    show = f"C {text.replace('_', ' ')}"
+    return show
 
 
 if __name__ == '__main__':
