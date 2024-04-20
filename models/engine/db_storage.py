@@ -22,6 +22,7 @@ class DBStorage:
     __engine = None
     __session = None
 
+
     def __init__(self):
         """ Initializes DBStorage """
         db_user = getenv("HBNB_MYSQL_USER")

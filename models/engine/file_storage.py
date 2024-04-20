@@ -23,7 +23,6 @@ class FileStorage:
             store = self.__objects.items()
             dicts = {key: val for key, val in store if instance(val, cls)}
             return dicts
-
         return self.__objects
 
     def new(self, obj):
