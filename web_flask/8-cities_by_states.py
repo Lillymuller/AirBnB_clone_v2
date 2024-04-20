@@ -16,7 +16,7 @@ app = Flask(__name__)
 @app.route("/cities_by_states",  strict_slashes=False)
 def cities_states():
     """Displays an HTML page with list of all State in DBStorage"""
-    state_list = storage.all("State").values()
+    state_list = storage.all("State").cities
     return render_template("8-cities_by_states.html", state_list=state_list)
 
 
