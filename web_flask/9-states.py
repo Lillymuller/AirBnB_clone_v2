@@ -16,26 +16,24 @@ app = Flask(__name__)
 
 @app.route("/states", strict_slashes=False)
 def states():
-    """Displays an HTML page with a list of all States.
-
-    States are sorted by name.
-    """
+    """Displays an HTML page with a list of all States"""
     state_lst = storage.all("State")
     return render_template("9-states.html", state_lst=state_lst)
 
 
 @app.route("/states/<id>", strict_slashes=False)
 def states_id(id):
-    """Displays an HTML page with info about <id>, if it exists."""
-    for state in storage.all("State").values():
+    """Displays an HTML page state with ids"""
+    store = storage.all("State").values()
+    for state in store:
         if state.id == id:
             return render_template("9-states.html", state=state)
     return render_template("9-states.html")
 
 
 @app.teardown_appcontext
-def teardown(exc):
-    """Remove the current SQLAlchemy session."""
+def teardown(exception):
+    """Remove SQLAlchemy session"""
     storage.close()
 
 
