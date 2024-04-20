@@ -16,17 +16,17 @@ from models import *
 app = Flask(__name__)
 
 
-@app.teardown_appcontext
-def teardown(exception):
-    """remove the current SQLAlchemy Session"""
-    storage.close()
-
-
 @app.route("/states_list",  strict_slashes=False)
 def states_cities():
     """Displays an HTML page with list of all State in DBStorage"""
     state_list = storage.all("State").values()
     return render_template("7-states_list.html", state_list=state_list)
+
+
+@app.teardown_appcontext
+def teardown(exception):
+    """remove the current SQLAlchemy Session"""
+    storage.close()
 
 
 if __name__ == '__main__':
