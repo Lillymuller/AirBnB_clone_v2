@@ -18,7 +18,8 @@ def route_hbnb():
     st = storage.all("State").value()
     am = storage.all("Amenity").value()
     pl = storage.all("Place").value()
-    return render_template("100-hbnb.html", st=st, am=am, pl=pl)
+    us = storage.all("User").value()
+    return render_template("100-hbnb.html", st=st, am=am, pl=pl, us=us)
 
 
 @app.teardown_appcontext
