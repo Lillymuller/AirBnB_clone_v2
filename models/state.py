@@ -11,7 +11,7 @@ from sqlalchemy.orm import relationship
 
 
 class State(BaseModel, Base):
-    """ State class """
+    """State class """
     __tablename__ = "states"
 
     name = Column(String(128), nullable=False)
@@ -22,9 +22,6 @@ class State(BaseModel, Base):
         @property
         def cities(self):
             """ list down related cities"""
-            clist = []
-            storages = models.storage.all(City).values()
-            for city in list(storages):
-                if city.state_id == self.id:
-                    clist.append(city)
-            return clist
+            store = models.storage.all(City).values()
+            citys = [city for City in store if city.state_id == self.id]
+            return citys
